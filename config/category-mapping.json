@@ -1,0 +1,126 @@
+{
+  "Joes Pay": {
+    "Category": "Variable",
+    "Category Type": "Income"
+  },
+  "Credit Card Payment": {
+    "Category": "Debt Repayment",
+    "Category Type": "Expense"
+  },
+  "Publix Pay": {
+    "Category": "Variable",
+    "Category Type": "Income"
+  },
+  "Groceries": {
+    "Category": "Living Expenses",
+    "Category Type": "Expense"
+  },
+  "Books": {
+    "Category": "School",
+    "Category Type": "Expense"
+  },
+  "Food Miscellaneous": {
+    "Category": "Food",
+    "Category Type": "Expense"
+  },
+  "Restaurant": {
+    "Category": "Food",
+    "Category Type": "Expense"
+  },
+  "Disc Miscellaneous": {
+    "Category": "Discretionary",
+    "Category Type": "Expense"
+  },
+  "Loan Repayment": {
+    "Category": "Debt Repayment",
+    "Category Type": "Expense"
+  },
+  "Gas": {
+    "Category": "Living Expenses",
+    "Category Type": "Expense"
+  },
+  "Coffee": {
+    "Category": "Food",
+    "Category Type": "Expense"
+  },
+  "Internet": {
+    "Category": "Living Expenses",
+    "Category Type": "Expense"
+  },
+  "Winthrop Pay": {
+    "Category": "Variable",
+    "Category Type": "Income"
+  },
+  "Rent": {
+    "Category": "Living Expenses",
+    "Category Type": "Expense"
+  },
+  "Recurring": {
+    "Category": "Subscriptions",
+    "Category Type": "Expense"
+  },
+  "Power": {
+    "Category": "Living Expenses",
+    "Category Type": "Expense"
+  },
+  "Life Miscellaneous": {
+    "Category": "Living Expenses",
+    "Category Type": "Expense"
+  },
+  "Var Miscellaneous": {
+    "Category": "Variable",
+    "Category Type": "Income"
+  },
+  "Dividends": {
+    "Category": "Variable",
+    "Category Type": "Income"
+  },
+  "Entertainment": {
+    "Category": "Discretionary",
+    "Category Type": "Expense"
+  },
+  "Clothes": {
+    "Category": "Discretionary",
+    "Category Type": "Expense"
+  },
+  "Added to Card": {
+    "Category": "Credit Card",
+    "Category Type": "CC Expense"
+  },
+  "Interest Added to Card": {
+    "Category": "Credit Card",
+    "Category Type": "CC Expense"
+  },
+  "Property Tax": {
+    "Category": "Living Expenses",
+    "Category Type": "Expense"
+  },
+  "Paid Toward Card": {
+    "Category": "Credit Card",
+    "Category Type": "Deduction"
+  },
+  "Savings Deposit": {
+    "Category": "Savings",
+    "Category Type": "Invested"
+  },
+  "Savings Transfer": {
+    "Category": "Transfer",
+    "Category Type": "Not Reported"
+  },
+  "Savings Compounded Interest": {
+    "Category": "Savings",
+    "Category Type": "Invested"
+  },
+  "Account Pay": {
+    "Category": "School",
+    "Category Type": "Expense"
+  },
+  "Savings Withdrawl": {
+    "Category": "Savings",
+    "Category Type": "Vested"
+  },
+  "Misc Discretionary": {
+    "Category": "Discretionary",
+    "Category Type": "Expense"
+  }
+}
