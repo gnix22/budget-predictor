@@ -122,9 +122,5 @@
   "Savings Withdrawl": {
     "Category": "Savings",
     "Category Type": "Vested"
-  },
-  "Misc Discretionary": {
-    "Category": "Discretionary",
-    "Category Type": "Expense"
   }
 }

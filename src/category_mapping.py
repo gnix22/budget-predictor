@@ -12,7 +12,23 @@ class CategoryMapping:
             data = json.load(file)
         return data
 
-    # add add_mappings method eventually
+    # if user has mappings, add them into a separate json that config pulls from
+    # update mapping path for instance
+    def add_user_mappings(self):
+        df = self.df
+        # check for df containing columns subcategory, category, category type.
+        # if existent, then check set to true
+        def check_if_user_mappings(self):
+            user_mappings_exist = False
+            sub_cat_type_check = df.loc[:, df.columns.str.contains("cat", case=False)]
+            if not sub_cat_type_check.empty():
+                user_mappings_exist = True
+            return user_mappings_exist
+        # if true, user-defined-mappings are created
+        user_mapping_bool = check_if_user_mappings(self)
+        if user_mapping_bool == True:
+            unique_mapping = df.drop_duplicates(subset=['Subcategory'])
+            json_output = unique_mapping.set_index('Subcategory')[['Category', 'Category Type']].to_json('./config/user-defined-mapping.json',orient='index', indent=2)
 
     def apply_mappings(self):
         mappings = self._get_mappings()
