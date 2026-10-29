@@ -8,5 +8,5 @@ df = df.loc[:,["Post Date","Credit"]]
 print(df.head())
 
 time_series = TimeSeriesPredictor(df)
-outliers = time_series.winsorize_outliers()
-print(outliers)
+model = time_series.model_fit()
+print(model)

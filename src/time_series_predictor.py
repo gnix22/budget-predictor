@@ -13,20 +13,25 @@ class TimeSeriesPredictor:
     """
     def __init__(self, df: pd.DataFrame):
         self.df = df
-
-    def winsorize_outliers(self):
+    # find outliers using modified z-score and winsorize found outliers to preserve data
+    def _winsorize_outliers(self):
         # drop date column and assign remaining series data for outlier detection
         df = self.df.copy()
-        drop_cols = df.loc[:, ~df.columns.str.contains('Date', case=False)]
+        drop_cols = df.loc[:, ~df.columns.str.contains("Date", case=False)]
         time_series_col_name = drop_cols.columns[0]
         # removes "" that show up in series
         time_series_data = pd.Series(pd.to_numeric(drop_cols[time_series_col_name], errors='coerce')).dropna()
         median = np.median(time_series_data)
         mad = np.median(np.abs(time_series_data - median))
 
+        # Get the first Date column name as a string
+        date_col_name = df.columns[df.columns.str.contains("Date", case=False)][0]
+
         scoring_df = pd.DataFrame({
             time_series_col_name: time_series_data,
-            "mod_z_score": 0.6745 * (time_series_data - median) / mad
+            "mod_z_score": 0.6745 * (time_series_data - median) / mad,
+            # Slice using the same index as time_series_data to keep sizes identical
+            "Date": df.loc[time_series_data.index, date_col_name]
         })
         outliers_mad = scoring_df[np.abs(scoring_df["mod_z_score"]) > 3.5]
 
@@ -41,5 +46,32 @@ class TimeSeriesPredictor:
         print(f"Credit lower cutoff boundary: {lower_bound:.2f}")
         print(f"Credit upper cutoff boundary: {upper_bound:.2f}")
 
-        return scoring_df[time_series_col_name].clip(lower=lower_bound, upper=upper_bound)
+        scoring_df[time_series_col_name] = scoring_df[time_series_col_name].clip(lower=lower_bound, upper=upper_bound)
+        return scoring_df
+
+    def _prep_data(self):
+        df = self._winsorize_outliers()
+        target_col = df.columns[~df.columns.str.contains("Date|mod_z_score", case=False)][0]
+        df["Date"] = pd.to_datetime(df["Date"])
+        df["Year"] = df["Date"].dt.year
+        df["Month"] = df["Date"].dt.month
+        month_sums = df.groupby(['Year', 'Month'], as_index=False)[target_col].sum()
+        split_idx = int(len(month_sums) * 0.8)
+        train = month_sums[target_col].values[:split_idx]
+        test = month_sums[target_col].values[split_idx:]
+        return train, test
+        return train, test
+    
+    def model_fit(self):
+        # get auto ordering from auto_arima, then use for getting best model
+        def _auto_order(training_data):
+            order = auto_arima(training_data).order
+            print("best ordering for given data: ", order)
+            return order
+
+        train, test = self._prep_data()
+        order = _auto_order(train)
+        model = ARIMA(train, order = order)
+        res = model.fit()
+        print(res.summary())
 
