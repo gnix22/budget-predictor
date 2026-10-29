@@ -14,13 +14,13 @@ class TimeSeriesPredictor:
     def __init__(self, df: pd.DataFrame):
         self.df = df
 
-    def get_outliers(self):
+    def winsorize_outliers(self):
         # drop date column and assign remaining series data for outlier detection
         df = self.df.copy()
         drop_cols = df.loc[:, ~df.columns.str.contains('Date', case=False)]
         time_series_col_name = drop_cols.columns[0]
         # removes "" that show up in series
-        time_series_data = pd.to_numeric(drop_cols[time_series_col_name], errors='coerce').dropna()
+        time_series_data = pd.Series(pd.to_numeric(drop_cols[time_series_col_name], errors='coerce')).dropna()
         median = np.median(time_series_data)
         mad = np.median(np.abs(time_series_data - median))
 
@@ -31,13 +31,15 @@ class TimeSeriesPredictor:
         outliers_mad = scoring_df[np.abs(scoring_df["mod_z_score"]) > 3.5]
 
         print("Outliers found via MAD:\n", outliers_mad[[time_series_col_name]])
-    #threshold = 3.5
+        # now clip outliers to keep hold of data
+        threshold = 3.5
 
-    #deviation_limit = (threshold * mad) / 0.6745
-    #lower_bound = median - deviation_limit
-    #upper_bound = median + deviation_limit
+        deviation_limit = (threshold * mad) / 0.6745
+        lower_bound = median - deviation_limit
+        upper_bound = median + deviation_limit
 
-    #income["Credit_winsorized"] = income["Credit"].clip(lower=lower_bound, upper=upper_bound)
+        print(f"Credit lower cutoff boundary: {lower_bound:.2f}")
+        print(f"Credit upper cutoff boundary: {upper_bound:.2f}")
 
-    #print(f"Credit lower cutoff boundary: {lower_bound:.2f}")
-    #print(f"Credit upper cutoff boundary: {upper_bound:.2f}")
+        return scoring_df[time_series_col_name].clip(lower=lower_bound, upper=upper_bound)
+
