@@ -5,8 +5,8 @@ from src.time_series_predictor import TimeSeriesPredictor
 df = pd.read_csv("./data/account-data-checking.csv")
 
 df = df.loc[:,["Post Date","Credit"]]
-print(df.head())
+#print(df.head())
 
 time_series = TimeSeriesPredictor(df)
-model = time_series.model_fit()
-print(model)
+model_fit = time_series.model_fit()
+print("Predicted income next month: ", time_series.get_forecast(model_fit))
