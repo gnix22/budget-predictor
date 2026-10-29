@@ -2,11 +2,12 @@ import json
 import pandas as pd
 
 class CategoryMapping:
-    def __init__(self, df: pd.DataFrame):
+    def __init__(self, df: pd.DataFrame, mapping: str = "./config/category-mapping.json"):
         self.df = df
-        self.mapping_path = "./config/category-mapping.json"
+        self.mapping_path = mapping
 
     def _get_mappings(self):
+        # open mappings in config directory
         with open(self.mapping_path, "r", encoding="utf-8") as file:
             data = json.load(file)
         return data
@@ -24,3 +25,8 @@ class CategoryMapping:
 
         self.df[["Category", "Category Type"]] = self.df["Subcategory"].apply(get_row_data)
         return self.df
+
+    #def _check_mappings(self): Not sure if this needs to be here or later in auto classifier.
+    # check if user has mapping, if not, have user decide whether or not to default,
+    # uses auto classifier class to get subcategory, then append category and cat type.
+
